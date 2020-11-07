@@ -11,18 +11,18 @@ namespace GetStackExchangeAnswersFromUser
         public string Title { get; private set; }
         public string Body { get; private set; }
 
-        public Question(JToken jsonQuestion)
+        public Question(JToken jtoken)
         {
-            Title = jsonQuestion["title"].Value<string>();
-            Body = jsonQuestion["body"].Value<string>();
+            Title = jtoken["title"].Value<string>();
+            Body = jtoken["body"].Value<string>();
         }
 
-        public static List<Question> GetQuestionsfrom(IJEnumerable<JToken> jsonQuestions)
+        public static List<Question> GetQuestions(IJEnumerable<JToken> jtokens)
         {
             List<Question> questions = new List<Question>();
-            foreach (JToken jsonQuestion in jsonQuestions)
+            foreach (JToken jtoken in jtokens)
             {
-                Question question = new Question(jsonQuestion);
+                Question question = new Question(jtoken);
                 questions.Add(question);
             }
             return questions;

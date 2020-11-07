@@ -41,7 +41,7 @@ namespace GetStackExchangeAnswersFromUser
                 JObject mainobject = JObject.Parse(json);
                 jtokens = mainobject.First.Children().Children();
             }
-            catch(Exception exception)
+            catch
             {
                 string errorMessage = string.Format("Could not parse json-data retrieved from url: {0}", url);
                 throw new Exception(errorMessage);
