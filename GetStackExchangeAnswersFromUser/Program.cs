@@ -10,22 +10,27 @@ namespace GetStackExchangeAnswersFromUser
        
         static void Main(string[] args)
         {
-            string url = "https://api.stackexchange.com/2.2/questions?fromdate=1604188800&todate=1604620800&order=desc&sort=activity&site=workplace&filter=withbody";
-            string json = Util.GetJsonFromUrl(url);
-
-            JObject mainobject = JObject.Parse(json);
-            List<Question> questions = Question.GetQuestionsfrom(mainobject.First.Children().Children());
-
-            Question question = Question.GetRandomQuestion(questions);
-
-            if (question != null)
+            try
             {
-                Console.WriteLine(question.Title);
-                Console.WriteLine();
-                Console.WriteLine(question.Body);
-            }
+                string url = "https://api.stackexchange.com/2.2/questions?fromdate=1604188800&todate=1604620800&order=desc&sort=activity&site=workplace&filter=withbody";
+                string json = Util.GetJsonFromUrl(url);
 
-           // questions.ForEach(q => { Console.WriteLine(q.Title); Console.WriteLine(); });          
+
+                List<Question> questions = Question.GetQuestionsfrom(Util.GetJsonTokensFromJsonString(json, url));
+                Question question = Question.GetRandomQuestion(questions);
+
+                if (question != null)
+                {
+                    Console.WriteLine(question.Title);
+                    Console.WriteLine();
+                    Console.WriteLine(question.Body);
+                }
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+   
             Console.ReadKey();
 
         }
