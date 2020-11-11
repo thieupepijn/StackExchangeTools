@@ -22,17 +22,15 @@ namespace GetStackExchangeAnswersFromUser
                 string questionsJson = Util.GetJsonFromUrl(questionsUrl);
                 IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
                 List<Question> questions = Question.GetQuestions(questionTokens);
+                questions.ForEach(q => q.FindAnswer(answers));
 
                 Console.WriteLine(Util.GetRandomItem(questions.Cast<IStackExchangeItem>().ToList()).Write());
-
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
-            }
-   
+            }   
             Console.ReadKey();
-
         }
     }
 }

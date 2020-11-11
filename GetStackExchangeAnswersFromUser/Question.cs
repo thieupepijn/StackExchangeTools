@@ -12,6 +12,7 @@ namespace GetStackExchangeAnswersFromUser
         public string QuestionId { get; private set; }
         public string Title { get; private set; }
         public string Body { get; private set; }
+        public Answer Answer { get; private set; }
 
         public Question(JToken jtoken)
         {
@@ -31,12 +32,28 @@ namespace GetStackExchangeAnswersFromUser
             return questions;
         }
 
+        public void FindAnswer(List<Answer> answers)
+        {
+            foreach(Answer answer in answers)
+            {
+                if (string.Equals(answer.QuestionId, QuestionId, StringComparison.OrdinalIgnoreCase))
+                {
+                    Answer = answer;
+                }
+            }     
+        }
+
         public string Write()
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine(Title);
             builder.AppendLine();
             builder.AppendLine(Body);
+            if (Answer != null)
+            {
+                builder.AppendLine();
+                builder.AppendLine(Answer.Write());
+            }
             return builder.ToString();
         }
 
