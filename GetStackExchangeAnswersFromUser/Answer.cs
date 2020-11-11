@@ -6,15 +6,21 @@ using System.Text;
 namespace GetStackExchangeAnswersFromUser
 {
 
-    public class Answer
+    public class Answer : IStackExchangeItem
     {
+        public string AnswerId { get; private set; }
+        public string QuestionId { get; private set; }
         public string Body { get; private set; }
+        public Question Question { get; private set; }
 
         public Answer(JToken jtoken)
         {
+            AnswerId = jtoken["answer_id"].Value<string>();
+            QuestionId = jtoken["question_id"].Value<string>();
             Body = jtoken["body"].Value<string>();
         }
 
+       
         public static List<Answer> GetAnswers(IJEnumerable<JToken> jtokens)
         {
             List<Answer> answers = new List<Answer>();
@@ -26,20 +32,9 @@ namespace GetStackExchangeAnswersFromUser
             return answers;
         }
 
-
-        public static Answer GetRandomAnswer(List<Answer> answers)
+        public string Write()
         {
-            if ((answers != null) && (answers.Count > 0))
-            {
-                Random random = new Random();
-                int randomIndexNumber = random.Next(0, answers.Count);
-                return answers[randomIndexNumber];
-            }
-            else
-            {
-                return null;
-            }
+            return Body;
         }
-
     }
 }

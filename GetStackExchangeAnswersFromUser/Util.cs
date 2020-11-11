@@ -49,8 +49,20 @@ namespace GetStackExchangeAnswersFromUser
             return jtokens;
         }
 
+        public static IStackExchangeItem GetRandomItem(List<IStackExchangeItem> items)
+        {
+            if ((items != null) && (items.Count > 0))
+            {
+                Random random = new Random();
+                int randomIndexNumber = random.Next(0, items.Count);
+                return items[randomIndexNumber];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-      
 
 
     }

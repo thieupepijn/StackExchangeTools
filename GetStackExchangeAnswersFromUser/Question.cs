@@ -5,14 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace GetStackExchangeAnswersFromUser
 {
-    public class Question
+    public class Question : IStackExchangeItem
     {
 
+        public string QuestionId { get; private set; }
         public string Title { get; private set; }
         public string Body { get; private set; }
 
         public Question(JToken jtoken)
         {
+            QuestionId = jtoken["question_id"].Value<string>();
             Title = jtoken["title"].Value<string>();
             Body = jtoken["body"].Value<string>();
         }
@@ -28,20 +30,13 @@ namespace GetStackExchangeAnswersFromUser
             return questions;
         }
 
-        public static Question GetRandomQuestion(List<Question> questions)
+        public string Write()
         {
-            if ((questions != null) && (questions.Count > 0))
-            {
-                Random random = new Random();
-                int randomIndexNumber = random.Next(0, questions.Count);
-                return questions[randomIndexNumber];
-            }
-            else
-            {
-                return null;
-            }
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(Title);
+            builder.AppendLine();
+            builder.AppendLine(Body);
+            return builder.ToString();
         }
-
-
     }
 }
