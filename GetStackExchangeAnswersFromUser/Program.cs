@@ -14,26 +14,16 @@ namespace GetStackExchangeAnswersFromUser
             try
             {
                 string answersUrl = "https://api.stackexchange.com/2.2/users/115746/answers?order=desc&sort=activity&site=workplace&filter=withbody";
-                string anwersJon = Util.GetJsonFromUrl(answersUrl);
-                IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJon, answersUrl);
+                string anwersJson = Util.GetJsonFromUrl(answersUrl);
+                IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJson, answersUrl);
                 List<Answer> answers = Answer.GetAnswers(answersTokens);
 
-
-                string questionsUrl = "https://api.stackexchange.com/2.2/questions?fromdate=1604188800&todate=1604620800&order=desc&sort=activity&site=workplace&filter=withbody";
+                string questionsUrl = Question.GetQuestionsUrl(answers);
                 string questionsJson = Util.GetJsonFromUrl(questionsUrl);
                 IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
                 List<Question> questions = Question.GetQuestions(questionTokens);
 
-
-                IStackExchangeItem item = Util.GetRandomItem(questions.Cast<IStackExchangeItem>().ToList());
-
-                if (item != null)
-                {
-                    Console.WriteLine(item.Write());
-                }
-
-
-
+                Console.WriteLine(Util.GetRandomItem(questions.Cast<IStackExchangeItem>().ToList()).Write());
 
             }
             catch (Exception exception)

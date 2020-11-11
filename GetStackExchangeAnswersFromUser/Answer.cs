@@ -11,8 +11,7 @@ namespace GetStackExchangeAnswersFromUser
         public string AnswerId { get; private set; }
         public string QuestionId { get; private set; }
         public string Body { get; private set; }
-        public Question Question { get; private set; }
-
+      
         public Answer(JToken jtoken)
         {
             AnswerId = jtoken["answer_id"].Value<string>();

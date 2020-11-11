@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace GetStackExchangeAnswersFromUser
 {
@@ -37,6 +38,13 @@ namespace GetStackExchangeAnswersFromUser
             builder.AppendLine();
             builder.AppendLine(Body);
             return builder.ToString();
+        }
+
+        public static string GetQuestionsUrl(List<Answer> answers)
+        {
+            string ids = string.Join(';', answers.Select(a => a.QuestionId));
+            string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=withbody", ids);
+            return url;
         }
     }
 }

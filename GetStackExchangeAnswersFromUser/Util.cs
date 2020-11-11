@@ -63,6 +63,20 @@ namespace GetStackExchangeAnswersFromUser
             }
         }
 
+        public static string WriteRandomItem(List<IStackExchangeItem> items)
+        {
+            IStackExchangeItem item = GetRandomItem(items);
+            if (item != null)
+            {
+                return item.Write();
+            }
+            else
+            {
+                return string.Empty;
+            }
+                   
+        }
+
 
 
     }
