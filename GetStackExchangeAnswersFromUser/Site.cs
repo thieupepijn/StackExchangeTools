@@ -9,9 +9,15 @@ namespace GetStackExchangeAnswersFromUser
     {
         public string Name { get; private set; }
 
+        public string ApiName { get; private set; }
+
+        public string IconUrl { get; private set; }
+
         public Site(JToken jtoken)
         {
-          Name = jtoken["name"].Value<string>();
+            Name = jtoken["name"].Value<string>();
+            ApiName = jtoken["api_site_parameter"].Value<string>();
+            IconUrl = jtoken["icon_url"].Value<string>();
         }
 
         public static List<Site> GetSites(IJEnumerable<JToken> jtokens)
@@ -23,6 +29,13 @@ namespace GetStackExchangeAnswersFromUser
                 sites.Add(site);
             }
             return sites;
+        }
+
+        public string GetAnswersUrl(string userid)
+        {
+            string url = string.Format("https://api.stackexchange.com/2.2/users/{0}/answers?order=desc&sort=activity&site=[1}&filter=withbody", userid);
+            return url;
+
         }
 
         public string Write()
