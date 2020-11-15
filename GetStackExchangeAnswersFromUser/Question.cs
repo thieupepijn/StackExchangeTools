@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.IO;
 
 namespace GetStackExchangeAnswersFromUser
 {
@@ -57,11 +58,25 @@ namespace GetStackExchangeAnswersFromUser
             return builder.ToString();
         }
 
+        public void WriteToFile(DirectoryInfo directory)
+        {
+            string fileName = string.Format("{0}.txt", QuestionId);
+            FileInfo fileInfo = new FileInfo(Path.Join(directory.FullName, fileName));
+            File.WriteAllText(fileInfo.FullName, Body);
+        }
+
         public static string GetQuestionsUrl(List<Answer> answers)
         {
             string ids = string.Join(';', answers.Select(a => a.QuestionId));
             string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=withbody", ids);
             return url;
+        }
+
+        public static bool WriteQuestionsToFile(List<Question> questions)
+        {
+            DirectoryInfo directoyInfo = Directory.CreateDirectory("Questions");
+            questions.ForEach(q => q.WriteToFile(directoyInfo));
+            return directoyInfo.Exists;
         }
     }
 }

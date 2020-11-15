@@ -22,22 +22,27 @@ namespace GetStackExchangeAnswersFromUser
 
             try
             {
-                string sitesUrl = "https://api.stackexchange.com/2.2/sites?pagesize=1000";
-                string sitesJson = Util.GetJsonFromUrl(sitesUrl);
-                IJEnumerable<JToken> sitesTokens = Util.GetJsonTokensFromJsonString(sitesJson, sitesUrl);
-                List<Site> sites = Site.GetSites(sitesTokens);
-
+                /*
+                    string sitesUrl = "https://api.stackexchange.com/2.2/sites?pagesize=1000";
+                    string sitesJson = Util.GetJsonFromUrl(sitesUrl);
+                    IJEnumerable<JToken> sitesTokens = Util.GetJsonTokensFromJsonString(sitesJson, sitesUrl);
+                    List<Site> sites = Site.GetSites(sitesTokens);
+                */
 
                 string answersUrl = Answer.GetAnswersUrl(userid, siteApiName);
                 string anwersJson = Util.GetJsonFromUrl(answersUrl);
                 IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJson, answersUrl);
                 List<Answer> answers = Answer.GetAnswers(answersTokens);
+                Answer.WriteAnswerstoFile(answers);
+
+
 
                 string questionsUrl = Question.GetQuestionsUrl(answers);
                 string questionsJson = Util.GetJsonFromUrl(questionsUrl);
                 IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
                 List<Question> questions = Question.GetQuestions(questionTokens);
                 questions.ForEach(q => q.FindAnswer(answers));
+                Question.WriteQuestionsToFile(questions);
 
                 //Console.WriteLine(Util.GetRandomItem(sites.Cast<IStackExchangeItem>().ToList()).Write());
                
