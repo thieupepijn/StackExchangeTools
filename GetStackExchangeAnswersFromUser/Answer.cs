@@ -17,7 +17,7 @@ namespace GetStackExchangeAnswersFromUser
         {
             AnswerId = jtoken["answer_id"].Value<string>();
             QuestionId = jtoken["question_id"].Value<string>();
-            Body = jtoken["body"].Value<string>();
+            Body = jtoken["body_markdown"].Value<string>();
         }
 
        
@@ -46,7 +46,7 @@ namespace GetStackExchangeAnswersFromUser
 
         public static string GetAnswersUrl(string userid, string siteApiName)
         {
-           string url = string.Format("https://api.stackexchange.com/2.2/users/{0}/answers?pagesize=100&order=desc&sort=activity&site={1}&filter=withbody", 
+           string url = string.Format("https://api.stackexchange.com/2.2/users/{0}/answers?pagesize=100&order=desc&sort=activity&site={1}&filter=!9_bDE(S6I", 
                                       userid, siteApiName);
            return url;
         }

@@ -19,7 +19,7 @@ namespace GetStackExchangeAnswersFromUser
         {
             QuestionId = jtoken["question_id"].Value<string>();
             Title = jtoken["title"].Value<string>();
-            Body = jtoken["body"].Value<string>();
+            Body = jtoken["body_markdown"].Value<string>();
         }
 
         public static List<Question> GetQuestions(IJEnumerable<JToken> jtokens)
@@ -68,7 +68,7 @@ namespace GetStackExchangeAnswersFromUser
         public static string GetQuestionsUrl(List<Answer> answers)
         {
             string ids = string.Join(';', answers.Select(a => a.QuestionId));
-            string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=withbody", ids);
+            string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=!9_bDDx5MI", ids);
             return url;
         }
 
