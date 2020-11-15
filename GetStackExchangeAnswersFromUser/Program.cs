@@ -11,6 +11,15 @@ namespace GetStackExchangeAnswersFromUser
        
         static void Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Usage: GetStackExchangeAnswersFromUser <userId> <siteApiName");
+                return;
+            }
+
+            string userid = args[0];
+            string siteApiName = args[1];
+
             try
             {
                 string sitesUrl = "https://api.stackexchange.com/2.2/sites?pagesize=1000";
@@ -18,13 +27,8 @@ namespace GetStackExchangeAnswersFromUser
                 IJEnumerable<JToken> sitesTokens = Util.GetJsonTokensFromJsonString(sitesJson, sitesUrl);
                 List<Site> sites = Site.GetSites(sitesTokens);
 
-                //string answersUrl = "https://api.stackexchange.com/2.2/users/115746/answers?order=desc&sort=activity&site=workplace&filter=withbody";
 
-                //string answersUrl = "https://api.stackexchange.com/2.2/users/115746/answers?order=desc&sort=activity&site=workplace&filter=withbody&pagesize=1000";
-
-
-                string answersUrl = "https://api.stackexchange.com/2.2/users/115746/answers?pagesize=100&order=desc&sort=activity&site=workplace&filter=withbody";
-
+                string answersUrl = Answer.GetAnswersUrl(userid, siteApiName);
                 string anwersJson = Util.GetJsonFromUrl(answersUrl);
                 IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJson, answersUrl);
                 List<Answer> answers = Answer.GetAnswers(answersTokens);
@@ -45,7 +49,7 @@ namespace GetStackExchangeAnswersFromUser
             {
                 Console.WriteLine(exception.Message);
             }   
-            Console.ReadKey();
+           // Console.ReadKey();
         }
     }
 }

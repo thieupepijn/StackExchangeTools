@@ -35,5 +35,12 @@ namespace GetStackExchangeAnswersFromUser
         {
             return Body;
         }
+
+        public static string GetAnswersUrl(string userid, string siteApiName)
+        {
+           string url = string.Format("https://api.stackexchange.com/2.2/users/{0}/answers?pagesize=100&order=desc&sort=activity&site={1}&filter=withbody", 
+                                      userid, siteApiName);
+           return url;
+        }
     }
 }
