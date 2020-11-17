@@ -24,22 +24,23 @@ namespace Questions2Book
             questions.ForEach(q => q.FindAnswer(answers));
 
 
-            PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream("hello.pdf", FileMode.Create, FileAccess.Write)));
+            PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream("WorkplaceQuestions.pdf", FileMode.Create, FileAccess.Write)));
             Document document = new Document(pdfDocument);
 
            
             foreach (Question question in questions)
             {
                 
-                Paragraph paragraphTitle = new Paragraph(question.Title);
+                Paragraph paragraphTitle = new Paragraph(MarkDown2Text(question.Title));
                 paragraphTitle.SetBold();
                 paragraphTitle.SetFontSize(14);
                 document.Add(paragraphTitle);
 
-                Paragraph paragraphBody = new Paragraph(question.Body);
+                Paragraph paragraphBody = new Paragraph(MarkDown2Text(question.Body));
                 document.Add(paragraphBody);
 
-                Paragraph paragraphAnswer = new Paragraph(question.Answer.Body);
+                Paragraph paragraphAnswer = new Paragraph(MarkDown2Text(question.Answer.Body));
+                paragraphAnswer.SetItalic();
                 document.Add(paragraphAnswer);
 
                 int numberOfPages = pdfDocument.GetNumberOfPages();
@@ -48,14 +49,17 @@ namespace Questions2Book
 
                 document.ShowTextAligned(new Paragraph(numberOfPages.ToString()),
                       pagewidth / 2, 20, numberOfPages, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-            }
-
-
-
-            
+            }        
             document.Close();
+        }
 
-
+        private static string MarkDown2Text(string markdown)
+        {
+            string text = markdown.Replace("&#39;", "'");
+            text = text.Replace("&gt;", string.Empty);
+            text = text.Replace("&quot;", "\"");
+            text = text.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
+            return text;
 
         }
     }
