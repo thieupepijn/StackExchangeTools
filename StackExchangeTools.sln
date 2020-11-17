@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetStackExchangeAnswersFromUser", "GetStackExchangeAnswersFromUser\GetStackExchangeAnswersFromUser.csproj", "{C6C00EEF-09C5-4396-969A-033F58ECB526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetStackExchangeAnswersFromUser", "GetStackExchangeAnswersFromUser\GetStackExchangeAnswersFromUser.csproj", "{C6C00EEF-09C5-4396-969A-033F58ECB526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryStackExchangeApi", "QueryStackExchangeApi\QueryStackExchangeApi.csproj", "{894A2F25-F886-4DEC-B3AF-334188EC6461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C6C00EEF-09C5-4396-969A-033F58ECB526}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6C00EEF-09C5-4396-969A-033F58ECB526}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6C00EEF-09C5-4396-969A-033F58ECB526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -54,7 +54,7 @@ namespace GetStackExchangeAnswersFromUser
             {
                 Console.WriteLine(exception.Message);
             }   
-           // Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }
