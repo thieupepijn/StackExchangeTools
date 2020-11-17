@@ -1,8 +1,6 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
-using System.Collections;
+﻿using QueryStackExchangeApi;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GetStackExchangeAnswersFromUser
 {

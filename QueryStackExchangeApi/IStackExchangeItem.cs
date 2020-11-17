@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GetStackExchangeAnswersFromUser
+namespace QueryStackExchangeApi
 {
     public interface IStackExchangeItem
     {

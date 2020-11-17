@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GetStackExchangeAnswersFromUser
+namespace QueryStackExchangeApi
 {
     public class Site : IStackExchangeItem
     {

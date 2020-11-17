@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.IO;
 
-namespace GetStackExchangeAnswersFromUser
+namespace QueryStackExchangeApi
 {
     public class Question : IStackExchangeItem
     {

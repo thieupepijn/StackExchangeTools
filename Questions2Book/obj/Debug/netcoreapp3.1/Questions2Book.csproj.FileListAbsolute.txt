@@ -1,0 +1,15 @@
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.csprojAssemblyReference.cache
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.AssemblyInfoInputs.cache
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.AssemblyInfo.cs
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.exe
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.deps.json
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.runtimeconfig.json
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.runtimeconfig.dev.json
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.dll
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Questions2Book.pdb
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\QueryStackExchangeApi.dll
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\bin\Debug\netcoreapp3.1\QueryStackExchangeApi.pdb
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.csproj.CopyComplete
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.dll
+D:\Matthieu\ThieuProgs\StackExchange\StackExchangeTools\Questions2Book\obj\Debug\netcoreapp3.1\Questions2Book.pdb

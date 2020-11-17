@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace GetStackExchangeAnswersFromUser
+namespace QueryStackExchangeApi
 {
     public class Util
     {

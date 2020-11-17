@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetStackExchangeAnswersFrom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryStackExchangeApi", "QueryStackExchangeApi\QueryStackExchangeApi.csproj", "{894A2F25-F886-4DEC-B3AF-334188EC6461}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questions2Book", "Questions2Book\Questions2Book.csproj", "{6E3E6016-DAD4-49B4-A884-06F9842A7816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{894A2F25-F886-4DEC-B3AF-334188EC6461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3E6016-DAD4-49B4-A884-06F9842A7816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3E6016-DAD4-49B4-A884-06F9842A7816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3E6016-DAD4-49B4-A884-06F9842A7816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3E6016-DAD4-49B4-A884-06F9842A7816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
