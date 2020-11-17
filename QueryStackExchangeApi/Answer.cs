@@ -21,7 +21,15 @@ namespace GetStackExchangeAnswersFromUser
         }
 
        
-        public static List<Answer> GetAnswers(IJEnumerable<JToken> jtokens)
+        public static List<Answer> GetAnswers(string userId, string siteApiName)
+        {
+            string answersUrl = Answer.GetAnswersUrl(userId, siteApiName);
+            string anwersJson = Util.GetJsonFromUrl(answersUrl);
+            IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJson, answersUrl);
+            return Answer.GetAnswers(answersTokens);
+        }
+
+        private static List<Answer> GetAnswers(IJEnumerable<JToken> jtokens)
         {
             List<Answer> answers = new List<Answer>();
             foreach (JToken jtoken in jtokens)
@@ -31,6 +39,9 @@ namespace GetStackExchangeAnswersFromUser
             }
             return answers;
         }
+
+
+
 
         public string Write()
         {

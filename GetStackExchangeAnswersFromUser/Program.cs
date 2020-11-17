@@ -29,18 +29,11 @@ namespace GetStackExchangeAnswersFromUser
                     List<Site> sites = Site.GetSites(sitesTokens);
                 */
 
-                string answersUrl = Answer.GetAnswersUrl(userid, siteApiName);
-                string anwersJson = Util.GetJsonFromUrl(answersUrl);
-                IJEnumerable<JToken> answersTokens = Util.GetJsonTokensFromJsonString(anwersJson, answersUrl);
-                List<Answer> answers = Answer.GetAnswers(answersTokens);
+
+                List<Answer> answers = Answer.GetAnswers(userid, siteApiName);
                 Answer.WriteAnswerstoFile(answers);
 
-
-
-                string questionsUrl = Question.GetQuestionsUrl(answers);
-                string questionsJson = Util.GetJsonFromUrl(questionsUrl);
-                IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
-                List<Question> questions = Question.GetQuestions(questionTokens);
+                List<Question> questions = Question.GetQuestions(answers);
                 questions.ForEach(q => q.FindAnswer(answers));
                 Question.WriteQuestionsToFile(questions);
 

@@ -22,7 +22,15 @@ namespace GetStackExchangeAnswersFromUser
             Body = jtoken["body_markdown"].Value<string>();
         }
 
-        public static List<Question> GetQuestions(IJEnumerable<JToken> jtokens)
+        public static List<Question> GetQuestions(List<Answer> answers)
+        {
+            string questionsUrl = Question.GetQuestionsUrl(answers);
+            string questionsJson = Util.GetJsonFromUrl(questionsUrl);
+            IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
+            return Question.GetQuestions(questionTokens);
+        }
+
+        private static List<Question> GetQuestions(IJEnumerable<JToken> jtokens)
         {
             List<Question> questions = new List<Question>();
             foreach (JToken jtoken in jtokens)
@@ -35,13 +43,13 @@ namespace GetStackExchangeAnswersFromUser
 
         public void FindAnswer(List<Answer> answers)
         {
-            foreach(Answer answer in answers)
+            foreach (Answer answer in answers)
             {
                 if (string.Equals(answer.QuestionId, QuestionId, StringComparison.OrdinalIgnoreCase))
                 {
                     Answer = answer;
                 }
-            }     
+            }
         }
 
         public string Write()
