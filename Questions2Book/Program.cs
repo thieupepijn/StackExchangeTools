@@ -31,15 +31,15 @@ namespace Questions2Book
             foreach (Question question in questions)
             {
                 
-                Paragraph paragraphTitle = new Paragraph(MarkDown2Text(question.Title));
+                Paragraph paragraphTitle = new Paragraph(UtilText.MarkDown2Text(question.Title));
                 paragraphTitle.SetBold();
                 paragraphTitle.SetFontSize(14);
                 document.Add(paragraphTitle);
 
-                Paragraph paragraphBody = new Paragraph(MarkDown2Text(question.Body));
+                Paragraph paragraphBody = new Paragraph(UtilText.MarkDown2Text(question.Body));
                 document.Add(paragraphBody);
 
-                Paragraph paragraphAnswer = new Paragraph(MarkDown2Text(question.Answer.Body));
+                Paragraph paragraphAnswer = new Paragraph(UtilText.MarkDown2Text(question.Answer.Body));
                 paragraphAnswer.SetItalic();
                 document.Add(paragraphAnswer);
 
@@ -53,14 +53,6 @@ namespace Questions2Book
             document.Close();
         }
 
-        private static string MarkDown2Text(string markdown)
-        {
-            string text = markdown.Replace("&#39;", "'");
-            text = text.Replace("&gt;", string.Empty);
-            text = text.Replace("&quot;", "\"");
-            text = text.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
-            return text;
-
-        }
+       
     }
 }
