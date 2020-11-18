@@ -13,8 +13,13 @@ namespace Questions2Book
             text = text.Replace("&gt;", string.Empty);
             text = text.Replace("&quot;", "\"");
             text = text.Replace("&amp;", "&");
+            text = text.Replace("**", string.Empty);
+            text = text.Replace("&lt;br", string.Empty);
+            text = text.Replace("&lt;sub", string.Empty);//TODO MATTHIEU FOOTNOTES
+            text = text.Replace("&lt;i", string.Empty);
+            text = text.Replace("&lt;/i", string.Empty);
             text = text.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
-            return text;
+            return RemoveBracelets(text);
         }
 
         public static string RemoveBracelets(string text)
