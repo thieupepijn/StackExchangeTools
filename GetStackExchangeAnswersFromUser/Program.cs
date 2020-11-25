@@ -18,7 +18,7 @@ namespace GetStackExchangeAnswersFromUser
             string userid = args[0];
             string siteApiName = args[1];
 
-            Enums.BodyType bodyType = Enums.BodyType.MARKDOWN;
+            Enums.BodyType bodyType = Enums.BodyType.HTML;
 
             try
             {
@@ -33,14 +33,14 @@ namespace GetStackExchangeAnswersFromUser
                 List<Answer> answers = Answer.GetAnswers(userid, siteApiName, bodyType);
                 Answer.WriteAnswerstoFile(answers);
 
-                List<Question> questions = Question.GetQuestions(answers, bodyType);
+                List<Question> questions = Question.GetQuestions(answers, siteApiName, bodyType);
                 questions.ForEach(q => q.FindAnswer(answers));
                 Question.WriteQuestionsToFile(questions);
 
                 //Console.WriteLine(Util.GetRandomItem(sites.Cast<IStackExchangeItem>().ToList()).Write());
                
 
-                Console.WriteLine(string.Format("{0} items", answers.Count));
+                Console.WriteLine(string.Format("{0} questions and {1} answers retrieved", answers.Count, questions.Count));
 
             }
             catch (Exception exception)
