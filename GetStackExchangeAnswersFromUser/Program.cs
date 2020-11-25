@@ -18,7 +18,7 @@ namespace GetStackExchangeAnswersFromUser
             string userid = args[0];
             string siteApiName = args[1];
 
-            Enums.BodyType bodyType = Enums.BodyType.HTML;
+            Enums.BodyType bodyType = Enums.BodyType.MARKDOWN;
 
             try
             {

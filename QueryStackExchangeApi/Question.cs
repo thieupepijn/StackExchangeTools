@@ -31,24 +31,47 @@ namespace QueryStackExchangeApi
             }
         }
 
-        public static List<Question> GetQuestions(List<Answer> answers, Enums.BodyType bodyType)
+        public Question(string questionId, Enums.BodyType bodyType)
         {
-            string questionsUrl = Question.GetQuestionsUrl(answers, bodyType);
-            string questionsJson = Util.GetJsonFromUrl(questionsUrl);
-            IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
-            return Question.GetQuestions(questionTokens, bodyType);
+            string url = string.Empty;
+
+            if (bodyType == Enums.BodyType.MARKDOWN)
+            {
+                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=!9_bDDx5MI", questionId);
+            }
+            else if (bodyType == Enums.BodyType.HTML)
+            {
+                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=withbody", questionId);
+
+            }
+
+            string questionsJson = Util.GetJsonFromUrl(url);
+            IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, url);
+            new Question(questionTokens.First(), bodyType);
+
         }
 
-        private static List<Question> GetQuestions(IJEnumerable<JToken> jtokens, Enums.BodyType bodyType)
+
+        //public static List<Question> GetQuestions(List<Answer> answers, Enums.BodyType bodyType)
+        //{
+        //    string questionsUrl = Question.GetQuestionsUrl(answers, bodyType);
+        //    string questionsJson = Util.GetJsonFromUrl(questionsUrl);
+        //    IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
+        //    return Question.GetQuestions(questionTokens, bodyType);
+        //}
+
+
+        public static List<Question> GetQuestions(List<Answer> answers, Enums.BodyType bodyType)
         {
             List<Question> questions = new List<Question>();
-            foreach (JToken jtoken in jtokens)
+            foreach(Answer answer in answers)
             {
-                Question question = new Question(jtoken, bodyType);
+                Question question = new Question(answer.QuestionId, bodyType);
                 questions.Add(question);
             }
             return questions;
         }
+
 
         public void FindAnswer(List<Answer> answers)
         {
@@ -101,6 +124,19 @@ namespace QueryStackExchangeApi
                 return url;
             }
         }
+
+        private static List<Question> GetQuestions(IJEnumerable<JToken> jtokens, Enums.BodyType bodyType)
+        {
+            List<Question> questions = new List<Question>();
+            foreach (JToken jtoken in jtokens)
+            {
+                Question question = new Question(jtoken, bodyType);
+                questions.Add(question);
+            }
+            return questions;
+        }
+
+        
 
         public static bool WriteQuestionsToFile(List<Question> questions)
         {
