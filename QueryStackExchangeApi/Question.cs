@@ -56,11 +56,15 @@ namespace QueryStackExchangeApi
         public string Write()
         {
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine("<H1>");
             builder.AppendLine(Title);
+            builder.AppendLine("</H1>");
             builder.AppendLine();
             builder.AppendLine(Body);
             if (Answer != null)
             {
+                builder.AppendLine();
+                builder.AppendLine("<H3>Answer</H3>");
                 builder.AppendLine();
                 builder.AppendLine(Answer.Write());
             }
