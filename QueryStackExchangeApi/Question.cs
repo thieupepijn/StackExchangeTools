@@ -9,6 +9,7 @@ namespace QueryStackExchangeApi
 {
     public class Question : IStackExchangeItem
     {
+        private object jtoken;
 
         public string QuestionId { get; private set; }
         public string Title { get; private set; }
@@ -16,38 +17,38 @@ namespace QueryStackExchangeApi
         public string Body { get; private set; }
         public Answer Answer { get; private set; }
 
-        public Question(JToken jtoken, Enums.BodyType bodyType)
-        {
-            QuestionId = jtoken["question_id"].Value<string>();
-            Title = jtoken["title"].Value<string>();
-            BodyType = bodyType;
-            if (bodyType == Enums.BodyType.MARKDOWN)
-            {
-                Body = jtoken["body_markdown"].Value<string>();
-            }
-            else
-            {
-                Body = jtoken["body"].Value<string>();
-            }
-        }
-
-        public Question(string questionId, string siteName, Enums.BodyType bodyType)
+      
+        public Question(Answer answer, string siteName, Enums.BodyType bodyType)
         {
             string url = string.Empty;
 
             if (bodyType == Enums.BodyType.MARKDOWN)
             {
-                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1)&filter=!9_bDDx5MI", questionId, siteName);
+                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1)&filter=!9_bDDx5MI", answer.QuestionId, siteName);
             }
             else if (bodyType == Enums.BodyType.HTML)
             {
-                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1}&filter=withbody", questionId, siteName);
+                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1}&filter=withbody", answer.QuestionId, siteName);
 
             }
 
             string questionsJson = Util.GetJsonFromUrl(url);
             IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, url);
-            new Question(questionTokens.First(), bodyType);
+            JToken jToken = questionTokens.First();
+
+            QuestionId = jToken["question_id"].Value<string>();
+            Title = jToken["title"].Value<string>();
+            BodyType = bodyType;
+            if (bodyType == Enums.BodyType.MARKDOWN)
+            {
+                Body = jToken["body_markdown"].Value<string>();
+            }
+            else
+            {
+                Body = jToken["body"].Value<string>();
+            }
+
+            Answer = answer;
         }
 
         public static List<Question> GetQuestions(List<Answer> answers, string siteName, Enums.BodyType bodyType)
@@ -55,7 +56,7 @@ namespace QueryStackExchangeApi
             List<Question> questions = new List<Question>();
             foreach(Answer answer in answers)
             {
-                Question question = new Question(answer.QuestionId, siteName, bodyType);
+                Question question = new Question(answer, siteName, bodyType);
                 questions.Add(question);
             }
             return questions;
@@ -104,6 +105,17 @@ namespace QueryStackExchangeApi
             string directoryName = Path.Join(Directory.GetCurrentDirectory(), "Questions");
             questions.ForEach(q => q.WriteToFile(directoryName));
             return Directory.Exists(directoryName);
+        }
+
+        public static string Question2String(List<Question> questions)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach(Question question in questions)
+            {
+                string text = question.Write();
+                builder.AppendLine(text);
+            }
+            return builder.ToString();
         }
 
 

@@ -1,4 +1,5 @@
-﻿using iText.Kernel.Pdf;
+﻿using iText.Html2pdf;
+using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Questions2Book
 {
@@ -16,43 +18,28 @@ namespace Questions2Book
         {
             string userId = "115746";
             string siteName = "workplace";
+            Enums.BodyType bodytype = Enums.BodyType.HTML;
 
-            List<Answer> answers = Answer.GetAnswers(userId, siteName);
+            List<Answer> answers = Answer.GetAnswers(userId, siteName, bodytype);
             Answer.WriteAnswerstoFile(answers);
 
-            List<Question> questions = Question.GetQuestions(answers);
+            List<Question> questions = Question.GetQuestions(answers, siteName, bodytype);
             questions.ForEach(q => q.FindAnswer(answers));
 
 
             PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream("WorkplaceQuestions.pdf", FileMode.Create, FileAccess.Write)));
             Document document = new Document(pdfDocument);
 
-           
-            foreach (Question question in questions)
-            {
-                
-                Paragraph paragraphTitle = new Paragraph(UtilText.MarkDown2Text(question.Title));
-                paragraphTitle.SetBold();
-                paragraphTitle.SetFontSize(14);
-                document.Add(paragraphTitle);
-
-                Paragraph paragraphBody = new Paragraph(UtilText.MarkDown2Text(question.Body));
-                document.Add(paragraphBody);
-
-                Paragraph paragraphAnswer = new Paragraph(UtilText.MarkDown2Text(question.Answer.Body));
-                paragraphAnswer.SetItalic();
-                document.Add(paragraphAnswer);
-
-                int numberOfPages = pdfDocument.GetNumberOfPages();
-                int pagewidth = Convert.ToInt16(pdfDocument.GetPage(numberOfPages).GetPageSize().GetWidth());
+            string allText = Question.Question2String(questions);
+            ConverterProperties converterProperties = new ConverterProperties();
+            HtmlConverter.ConvertToPdf(allText, pdfDocument, converterProperties);
 
 
-                document.ShowTextAligned(new Paragraph(numberOfPages.ToString()),
-                      pagewidth / 2, 20, numberOfPages, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-            }        
-            document.Close();
         }
 
-       
+
+
+
+
     }
 }
