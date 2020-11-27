@@ -9,28 +9,16 @@ namespace QueryStackExchangeApi
 {
     public class Question : IStackExchangeItem
     {
-        private object jtoken;
-
+       
         public string QuestionId { get; private set; }
         public string Title { get; private set; }
-        public Enums.BodyType  BodyType { get; private set; }
         public string Body { get; private set; }
         public Answer Answer { get; private set; }
 
-      
-        public Question(Answer answer, string siteName, Enums.BodyType bodyType)
+
+        public Question(Answer answer, string siteName)
         {
-            string url = string.Empty;
-
-            if (bodyType == Enums.BodyType.MARKDOWN)
-            {
-                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1)&filter=!9_bDDx5MI", answer.QuestionId, siteName);
-            }
-            else if (bodyType == Enums.BodyType.HTML)
-            {
-                url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1}&filter=withbody", answer.QuestionId, siteName);
-
-            }
+            string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site={1}&filter=withbody", answer.QuestionId, siteName);
 
             string questionsJson = Util.GetJsonFromUrl(url);
             IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, url);
@@ -38,25 +26,16 @@ namespace QueryStackExchangeApi
 
             QuestionId = jToken["question_id"].Value<string>();
             Title = jToken["title"].Value<string>();
-            BodyType = bodyType;
-            if (bodyType == Enums.BodyType.MARKDOWN)
-            {
-                Body = jToken["body_markdown"].Value<string>();
-            }
-            else
-            {
-                Body = jToken["body"].Value<string>();
-            }
-
+            Body = jToken["body"].Value<string>();
             Answer = answer;
         }
 
-        public static List<Question> GetQuestions(List<Answer> answers, string siteName, Enums.BodyType bodyType)
+        public static List<Question> GetQuestions(List<Answer> answers, string siteName)
         {
             List<Question> questions = new List<Question>();
             foreach(Answer answer in answers)
             {
-                Question question = new Question(answer, siteName, bodyType);
+                Question question = new Question(answer, siteName);
                 questions.Add(question);
             }
             return questions;
@@ -91,8 +70,7 @@ namespace QueryStackExchangeApi
         public void WriteToFile(string directoryName)
         {
             string fileName = string.Format("{0}.txt", QuestionId);
-            string subDirectoryName = Enum.GetName(typeof(Enums.BodyType), BodyType);
-            FileInfo fileInfo = new FileInfo(Path.Join(directoryName, subDirectoryName, fileName));
+            FileInfo fileInfo = new FileInfo(Path.Join(directoryName, fileName));
             if (!fileInfo.Directory.Exists)
             {
                 fileInfo.Directory.Create();
@@ -113,48 +91,11 @@ namespace QueryStackExchangeApi
             foreach(Question question in questions)
             {
                 string text = question.Write();
+                text.Trim(Environment.NewLine.ToCharArray());
                 builder.AppendLine(text);
             }
             return builder.ToString();
         }
-
-
-        #region deprecated
-        //public static string GetQuestionsUrl(List<Answer> answers, Enums.BodyType bodyType)
-        //{
-        //    string ids = string.Join(';', answers.Select(a => a.QuestionId));
-        //    if (bodyType == Enums.BodyType.MARKDOWN)
-        //    {
-        //        string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=!9_bDDx5MI", ids);
-        //        return url;
-        //    }
-        //    else
-        //    {
-        //        string url = string.Format("https://api.stackexchange.com/2.2/questions/{0}?order=desc&sort=activity&site=workplace&filter=withbody", ids);
-        //        return url;
-        //    }
-        //}
-
-        //private static List<Question> GetQuestions(IJEnumerable<JToken> jtokens, Enums.BodyType bodyType)
-        //{
-        //    List<Question> questions = new List<Question>();
-        //    foreach (JToken jtoken in jtokens)
-        //    {
-        //        Question question = new Question(jtoken, bodyType);
-        //        questions.Add(question);
-        //    }
-        //    return questions;
-        //}
-
-        //public static List<Question> GetQuestions(List<Answer> answers, Enums.BodyType bodyType)
-        //{
-        //    string questionsUrl = Question.GetQuestionsUrl(answers, bodyType);
-        //    string questionsJson = Util.GetJsonFromUrl(questionsUrl);
-        //    IJEnumerable<JToken> questionTokens = Util.GetJsonTokensFromJsonString(questionsJson, questionsUrl);
-        //    return Question.GetQuestions(questionTokens, bodyType);
-        //}
-
-        #endregion
 
     }
 }

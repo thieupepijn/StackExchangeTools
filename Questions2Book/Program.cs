@@ -18,12 +18,11 @@ namespace Questions2Book
         {
             string userId = "115746";
             string siteName = "workplace";
-            Enums.BodyType bodytype = Enums.BodyType.HTML;
-
-            List<Answer> answers = Answer.GetAnswers(userId, siteName, bodytype);
+           
+            List<Answer> answers = Answer.GetAnswers(userId, siteName);
             Answer.WriteAnswerstoFile(answers);
 
-            List<Question> questions = Question.GetQuestions(answers, siteName, bodytype);
+            List<Question> questions = Question.GetQuestions(answers, siteName);
             questions.ForEach(q => q.FindAnswer(answers));
 
 

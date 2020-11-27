@@ -18,8 +18,7 @@ namespace GetStackExchangeAnswersFromUser
             string userid = args[0];
             string siteApiName = args[1];
 
-            Enums.BodyType bodyType = Enums.BodyType.HTML;
-
+            
             try
             {
                 /*
@@ -30,10 +29,10 @@ namespace GetStackExchangeAnswersFromUser
                 */
 
 
-                List<Answer> answers = Answer.GetAnswers(userid, siteApiName, bodyType);
+                List<Answer> answers = Answer.GetAnswers(userid, siteApiName);
                 Answer.WriteAnswerstoFile(answers);
 
-                List<Question> questions = Question.GetQuestions(answers, siteApiName, bodyType);
+                List<Question> questions = Question.GetQuestions(answers, siteApiName);
                 questions.ForEach(q => q.FindAnswer(answers));
                 Question.WriteQuestionsToFile(questions);
 
