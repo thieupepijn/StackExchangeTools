@@ -1,5 +1,6 @@
 ﻿using iText.Html2pdf;
 using iText.Kernel.Pdf;
+using iText.Kernel.Utils;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
@@ -18,20 +19,22 @@ namespace Questions2Book
         {
             string userId = "115746";
             string siteName = "workplace";
-            string bookFileName = "WorkplaceQuestions.pdf";
-            string bookFileNameNumbered = "WorkplaceQuestionsNumbered.pdf";
+            string questionsFileName = "Questions.pdf";
             string referencesFileName = "References.pdf";
+            string bookFileName = "Book.pdf";
+            string bookFileNameNumbered = "BookNumbered.pdf";
 
             List<Answer> answers = Answer.GetAnswers(userId, siteName);
             List<Question> questions = Question.GetQuestions(answers, siteName);
-           
-            string HtmlQuestions = Question.Question2String(questions);
 
-            WriteHtmlText2Pdf(HtmlQuestions, bookFileName);
-            NumberPdfDocument(bookFileName, bookFileNameNumbered);
+            string HtmlQuestions = Question.Question2String(questions);
+            WriteHtmlText2Pdf(HtmlQuestions, questionsFileName);
 
             string HtmlReferences = Question.References2String(questions);
             WriteHtmlText2Pdf(HtmlReferences, referencesFileName);
+
+            MergePdf(questionsFileName, referencesFileName, bookFileName);
+            NumberPdfDocument(bookFileName, bookFileNameNumbered);
         }
 
 
@@ -60,7 +63,25 @@ namespace Questions2Book
         }
             
 
+        private static void MergePdf(string pdfFile1, string pdfFile2, string mergedPdfFile)
+        {
+           
+            PdfDocument pdfCombined = new PdfDocument(new PdfWriter(mergedPdfFile));
+            PdfMerger merger = new PdfMerger(pdfCombined);
 
+            //Add pages from the first document
+            PdfDocument pdf1 = new PdfDocument(new PdfReader(pdfFile1));
+            merger.Merge(pdf1, 1, pdf1.GetNumberOfPages());
+
+            //Add pages from the second pdf document
+            PdfDocument pdf2 = new PdfDocument(new PdfReader(pdfFile2));
+            merger.Merge(pdf2, 1, pdf2.GetNumberOfPages());
+
+            pdf1.Close();
+            pdf2.Close();
+            merger.Close();
+        }
+            
 
 
     }
