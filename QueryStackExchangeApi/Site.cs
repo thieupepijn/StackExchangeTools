@@ -42,5 +42,10 @@ namespace QueryStackExchangeApi
         {
             return Name;
         }
+
+        public string WriteReference()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

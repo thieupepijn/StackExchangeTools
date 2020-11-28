@@ -9,5 +9,7 @@ namespace QueryStackExchangeApi
        
         string Write();
 
+        string WriteReference();
+
     }
 }

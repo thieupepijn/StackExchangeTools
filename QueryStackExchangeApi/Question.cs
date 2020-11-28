@@ -11,9 +11,11 @@ namespace QueryStackExchangeApi
     {
        
         public string QuestionId { get; private set; }
+        public string Link { get; private set; }
         public string Title { get; private set; }
         public string Body { get; private set; }
         public Answer Answer { get; private set; }
+
 
 
         public Question(Answer answer, string siteName)
@@ -25,6 +27,7 @@ namespace QueryStackExchangeApi
             JToken jToken = questionTokens.First();
 
             QuestionId = jToken["question_id"].Value<string>();
+            Link = jToken["link"].Value<string>();
             Title = jToken["title"].Value<string>();
             Body = jToken["body"].Value<string>();
             Answer = answer;
@@ -71,6 +74,14 @@ namespace QueryStackExchangeApi
             return builder.ToString();
         }
 
+        public string WriteReference()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(string.Format("<H4>{0}</H4>",Title));
+            builder.Append(string.Format("<a href=\"{0}\">{1}</a>", Link, Link));
+            return builder.ToString();
+        }
+
         public void WriteToFile(string directoryName)
         {
             string fileName = string.Format("{0}.txt", QuestionId);
@@ -101,5 +112,20 @@ namespace QueryStackExchangeApi
             return builder.ToString();
         }
 
+        public static string References2String(List<Question> questions)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("<H1>References</H1>");
+            builder.AppendLine("<BR>");
+            foreach (Question question in questions)
+            {
+                builder.AppendLine(question.WriteReference());
+                builder.AppendLine("<BR>");
+                builder.Append("<BR>");
+            }
+            return builder.ToString();
+        }
+
+       
     }
 }

@@ -75,5 +75,10 @@ namespace QueryStackExchangeApi
             answers.ForEach(a => a.WriteToFile(directoryName));
             return Directory.Exists(directoryName);
         }
+
+        public string WriteReference()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

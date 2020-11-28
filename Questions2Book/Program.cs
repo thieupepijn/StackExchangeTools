@@ -20,28 +20,32 @@ namespace Questions2Book
             string siteName = "workplace";
             string bookFileName = "WorkplaceQuestions.pdf";
             string bookFileNameNumbered = "WorkplaceQuestionsNumbered.pdf";
+            string referencesFileName = "References.pdf";
 
             List<Answer> answers = Answer.GetAnswers(userId, siteName);
             List<Question> questions = Question.GetQuestions(answers, siteName);
+           
+            string HtmlQuestions = Question.Question2String(questions);
 
-            WriteQuestions2Book(questions, bookFileName);
+            WriteHtmlText2Pdf(HtmlQuestions, bookFileName);
             NumberPdfDocument(bookFileName, bookFileNameNumbered);
+
+            string HtmlReferences = Question.References2String(questions);
+            WriteHtmlText2Pdf(HtmlReferences, referencesFileName);
         }
 
 
-        private static void WriteQuestions2Book(List<Question> questions, string bookFileName)
+        private static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName)
         {
-            PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream(bookFileName, FileMode.Create, FileAccess.Write)));
-            Document document = new Document(pdfDocument);
-
-            string allText = Question.Question2String(questions);
+            PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream(pdfFileName, FileMode.Create, FileAccess.Write)));
+            Document document = new Document(pdfDocument); 
             ConverterProperties converterProperties = new ConverterProperties();
-            HtmlConverter.ConvertToPdf(allText, pdfDocument, converterProperties);
+            HtmlConverter.ConvertToPdf(HtmlText, pdfDocument, converterProperties);
         }
 
-        private static void NumberPdfDocument(string inFilePath, string outFilePath)
+        private static void NumberPdfDocument(string inFileName, string outFileName)
         {
-            PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFilePath), new PdfWriter(outFilePath));
+            PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFileName), new PdfWriter(outFileName));
             Document document = new Document(pdfDocument);
 
             int numberOfPages = pdfDocument.GetNumberOfPages();
@@ -49,7 +53,6 @@ namespace Questions2Book
 
             for (int i = 1; i <= numberOfPages; i++)
             {
-
                 document.ShowTextAligned(new Paragraph(i.ToString()),
                           pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
             }
