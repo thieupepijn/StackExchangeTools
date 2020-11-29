@@ -12,12 +12,14 @@ namespace QueryStackExchangeApi
         public string AnswerId { get; private set; }
         public string QuestionId { get; private set; }
         public string Body { get; private set; }
+        public int Score { get; private set; }
 
         public Answer(JToken jtoken)
         {
             AnswerId = jtoken["answer_id"].Value<string>();
             QuestionId = jtoken["question_id"].Value<string>();
             Body = jtoken["body"].Value<string>();
+            Score = jtoken["score"].Value<int>();
         }
 
        
@@ -66,7 +68,12 @@ namespace QueryStackExchangeApi
             string url = string.Format("https://api.stackexchange.com/2.2/users/115746/answers?fromdate=1606348800&todate=1606608000&order=desc&sort=activity&site={1}&filter=withbody",
                                        userid, siteApiName);
             return url;
-        }    
+        }
+        
+        public static void RemoveBadAnswers(List<Answer> answers, int minimalScore = 1)
+        {
+            answers.RemoveAll(a => a.Score < minimalScore);
+        }
         
 
         public static bool WriteAnswerstoFile(List<Answer> answers)

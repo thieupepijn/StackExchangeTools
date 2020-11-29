@@ -25,6 +25,7 @@ namespace Questions2Book
             string bookFileNameNumbered = "BookNumbered.pdf";
 
             List<Answer> answers = Answer.GetAnswers(userId, siteName);
+            Answer.RemoveBadAnswers(answers);
             List<Question> questions = Question.GetQuestions(answers, siteName);
 
             string HtmlQuestions = Question.Question2String(questions);
