@@ -23,6 +23,12 @@ namespace Questions2Book
             string referencesFileName = "References.pdf";
             string bookFileName = "Book.pdf";
             string bookFileNameNumbered = "BookNumbered.pdf";
+            string bookFileNumberedWithCovers = "BookNumberedWithCovers.pdf";
+
+            string frontCoverFileName = @"..\Assets\ScrummingTheDayAwayVersion1\Cover.pdf";
+          
+
+            string coverFileName = System.AppDomain.CurrentDomain.BaseDirectory;
 
             List<Answer> answers = Answer.GetAnswers(userId, siteName);
             Answer.RemoveBadAnswers(answers);
@@ -36,6 +42,8 @@ namespace Questions2Book
 
             UtilPDF.MergePdf(questionsFileName, referencesFileName, bookFileName);
             UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered);
+
+            UtilPDF.MergePdf(frontCoverFileName, bookFileNameNumbered, bookFileNumberedWithCovers);
         }
 
 
