@@ -4,6 +4,7 @@ using iText.Kernel.Utils;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using iText.Kernel.Geom;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,15 +14,17 @@ namespace Questions2Book
 {
     public class UtilPDF
     {
-        public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName)
+        public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName, PageSize pageSize)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream(pdfFileName, FileMode.Create, FileAccess.Write)));
-            Document document = new Document(pdfDocument);
+            Document document = new Document(pdfDocument, pageSize);
             ConverterProperties converterProperties = new ConverterProperties();
             HtmlConverter.ConvertToPdf(HtmlText, pdfDocument, converterProperties);
         }
 
-        public static void NumberPdfDocument(string inFileName, string outFileName)
+        
+
+        public static void NumberPdfDocument(string inFileName, string outFileName, PageSize pageSize)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFileName), new PdfWriter(outFileName));
             Document document = new Document(pdfDocument);
@@ -54,6 +57,21 @@ namespace Questions2Book
 
             pdf1.Close();
             pdf2.Close();
+            merger.Close();
+        }
+
+        public static void MergePdf(List<string> sources, string merged)
+        {
+            PdfDocument pdfCombined = new PdfDocument(new PdfWriter(merged));
+            PdfMerger merger = new PdfMerger(pdfCombined);
+
+           foreach(string source in sources)
+            {
+                PdfDocument pdf = new PdfDocument(new PdfReader(source));
+                merger.Merge(pdf, 1, pdf.GetNumberOfPages());
+                pdf.Close();
+            }
+
             merger.Close();
         }
 
