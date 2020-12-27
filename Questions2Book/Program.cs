@@ -24,6 +24,9 @@ namespace Questions2Book
             string frontCoverBackFileName = "secondPage";
             string questionsFileName = "Questions.pdf";
             string referencesFileName = "References.pdf";
+            string backCover1FileName = "backCover1.pdf";
+            string backCover2FileName = "backCover2.pdf";
+
             string bookFileName = "Book.pdf";
             string bookFileNameNumbered = "BookNumbered.pdf";
 
@@ -39,20 +42,19 @@ namespace Questions2Book
             UtilPDF.WriteHtmlText2Pdf(HtmlReferences, referencesFileName);
           
             MakeFrontCoverImageSourcePage(frontCoverBackFileName);
-
+            MakeBackCover(backCover1FileName, backCover2FileName);
 
             List<string> sources = new List<string>();
             sources.Add(frontCoverFileName);
             sources.Add(frontCoverBackFileName);
             sources.Add(questionsFileName);
             sources.Add(referencesFileName);
+            sources.Add(backCover1FileName);
+            sources.Add(backCover2FileName);
 
             UtilPDF.MergePdf(sources, bookFileName);
 
-            UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, 3);
-
-
-
+            UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, false);
         }
 
 
@@ -65,6 +67,15 @@ namespace Questions2Book
                           newLine, source, licence);
             UtilPDF.WriteHtmlText2Pdf(text, fileName);
         }
+
+        private static void MakeBackCover(string backCover1FileName, string backCover2FileName)
+        {
+            string newLine = "<BR>";
+            UtilPDF.WriteHtmlText2Pdf(newLine, backCover1FileName);
+            UtilPDF.WriteHtmlText2Pdf(newLine, backCover2FileName);
+        }
+
+
 
 
     }

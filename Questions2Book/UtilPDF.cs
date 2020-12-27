@@ -30,7 +30,7 @@ namespace Questions2Book
 
         
 
-        public static void NumberPdfDocument(string inFileName, string outFileName, int startpage = 1)
+        public static void NumberPdfDocument(string inFileName, string outFileName, bool includeCovers)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFileName), new PdfWriter(outFileName));
             Document document = new Document(pdfDocument);
@@ -38,19 +38,28 @@ namespace Questions2Book
             int numberOfPages = pdfDocument.GetNumberOfPages();
             int pagewidth = Convert.ToInt16(pdfDocument.GetPage(numberOfPages).GetPageSize().GetWidth());
 
-            int counter = 1;
-            for (int i = startpage; i <= numberOfPages; i++)
+            if (includeCovers)
             {
-                document.ShowTextAligned(new Paragraph(counter.ToString()),
-                          pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                counter++;
+                for (int i = 1; i <= numberOfPages; i++)
+                {
+                    document.ShowTextAligned(new Paragraph(i.ToString()),
+                              pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                }
+            }
+            else
+            {
+                int counter = 1;
+                for (int i = 3; i <= numberOfPages - 2; i++)
+                {
+                    document.ShowTextAligned(new Paragraph(counter.ToString()),
+                              pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                    counter++;
+                }
             }
             document.Close();
         }
 
-
-       
-
+      
         public static void MergePdf(List<string> sources, string merged)
         {
             PdfDocument pdfCombined = new PdfDocument(new PdfWriter(merged));
