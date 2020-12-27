@@ -14,7 +14,13 @@ namespace Questions2Book
 {
     public class UtilPDF
     {
-        public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName, PageSize pageSize)
+
+        public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName)
+        {
+            WriteHtmlText2Pdf(HtmlText, pdfFileName, PageSize.A4);
+        }
+
+            public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName, PageSize pageSize)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfWriter(new FileStream(pdfFileName, FileMode.Create, FileAccess.Write)));
             Document document = new Document(pdfDocument, pageSize);
@@ -24,7 +30,7 @@ namespace Questions2Book
 
         
 
-        public static void NumberPdfDocument(string inFileName, string outFileName, PageSize pageSize)
+        public static void NumberPdfDocument(string inFileName, string outFileName, int startpage = 1)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFileName), new PdfWriter(outFileName));
             Document document = new Document(pdfDocument);
@@ -32,33 +38,18 @@ namespace Questions2Book
             int numberOfPages = pdfDocument.GetNumberOfPages();
             int pagewidth = Convert.ToInt16(pdfDocument.GetPage(numberOfPages).GetPageSize().GetWidth());
 
-            for (int i = 1; i <= numberOfPages; i++)
+            int counter = 1;
+            for (int i = startpage; i <= numberOfPages; i++)
             {
-                document.ShowTextAligned(new Paragraph(i.ToString()),
+                document.ShowTextAligned(new Paragraph(counter.ToString()),
                           pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                counter++;
             }
             document.Close();
         }
 
 
-        public static void MergePdf(string pdfFile1, string pdfFile2, string mergedPdfFile)
-        {
-
-            PdfDocument pdfCombined = new PdfDocument(new PdfWriter(mergedPdfFile));
-            PdfMerger merger = new PdfMerger(pdfCombined);
-
-            //Add pages from the first document
-            PdfDocument pdf1 = new PdfDocument(new PdfReader(pdfFile1));
-            merger.Merge(pdf1, 1, pdf1.GetNumberOfPages());
-
-            //Add pages from the second pdf document
-            PdfDocument pdf2 = new PdfDocument(new PdfReader(pdfFile2));
-            merger.Merge(pdf2, 1, pdf2.GetNumberOfPages());
-
-            pdf1.Close();
-            pdf2.Close();
-            merger.Close();
-        }
+       
 
         public static void MergePdf(List<string> sources, string merged)
         {

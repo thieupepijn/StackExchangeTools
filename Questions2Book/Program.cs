@@ -25,20 +25,19 @@ namespace Questions2Book
             string questionsFileName = "Questions.pdf";
             string referencesFileName = "References.pdf";
             string bookFileName = "Book.pdf";
-           
-          
+            string bookFileNameNumbered = "BookNumbered.pdf";
+
+
             List<Answer> answers = Answer.GetAnswers(userId, siteName);
             Answer.RemoveBadAnswers(answers);
             List<Question> questions = Question.GetQuestions(answers, siteName);
 
             string HtmlQuestions = Question.Question2String(questions);
-            UtilPDF.WriteHtmlText2Pdf(HtmlQuestions, questionsFileName, PageSize.A4);
+            UtilPDF.WriteHtmlText2Pdf(HtmlQuestions, questionsFileName);
 
             string HtmlReferences = Question.References2String(questions);
-            UtilPDF.WriteHtmlText2Pdf(HtmlReferences, referencesFileName, PageSize.A4);
-
-            // UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, PageSize.A4);
-
+            UtilPDF.WriteHtmlText2Pdf(HtmlReferences, referencesFileName);
+          
             MakeFrontCoverImageSourcePage(frontCoverBackFileName);
 
 
@@ -50,7 +49,10 @@ namespace Questions2Book
 
             UtilPDF.MergePdf(sources, bookFileName);
 
-        
+            UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, 3);
+
+
+
         }
 
 
@@ -61,7 +63,7 @@ namespace Questions2Book
             string newLine = "<BR>";
             string text = string.Format("Image taken from {0} {0} {1} {0} {0} under the {2} license", 
                           newLine, source, licence);
-            UtilPDF.WriteHtmlText2Pdf(text, fileName, PageSize.A4);
+            UtilPDF.WriteHtmlText2Pdf(text, fileName);
         }
 
 
