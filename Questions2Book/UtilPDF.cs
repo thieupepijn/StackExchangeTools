@@ -17,7 +17,7 @@ namespace Questions2Book
 
         public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName)
         {
-            WriteHtmlText2Pdf(HtmlText, pdfFileName, PageSize.A4);
+            WriteHtmlText2Pdf(HtmlText, pdfFileName, PageSize.A5);
         }
 
             public static void WriteHtmlText2Pdf(string HtmlText, string pdfFileName, PageSize pageSize)

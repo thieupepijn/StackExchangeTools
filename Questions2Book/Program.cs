@@ -32,8 +32,7 @@ namespace Questions2Book
             Answer.RemoveBadAnswers(answers);
             List<Question> questions = Question.GetQuestions(answers, siteName);
 
-            string HtmlQuestions = Question.Question2String(questions);
-            UtilPDF.WriteHtmlText2Pdf(HtmlQuestions, questionsFileName);
+            WriteQuestionsToPDFEachQuestionOnseperatePage(questions, questionsFileName);
 
             string HtmlReferences = Question.References2String(questions);
             UtilPDF.WriteHtmlText2Pdf(HtmlReferences, referencesFileName);
@@ -42,7 +41,7 @@ namespace Questions2Book
             MakeBlankPage(blankPageFileName);
 
             List<string> sources = new List<string>();
-            sources.Add(frontCoverFileName);
+         //   sources.Add(frontCoverFileName);
             sources.Add(frontCoverBackFileName);
             sources.Add(questionsFileName);
             sources.Add(referencesFileName);
@@ -54,6 +53,30 @@ namespace Questions2Book
 
             UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, false);
         }
+
+        private static void WriteQuestionsToPDF(List<Question> questions, string questionsPdFFileName)
+        {
+            string HtmlQuestions = Question.Question2String(questions);
+            UtilPDF.WriteHtmlText2Pdf(HtmlQuestions, questionsPdFFileName);
+
+        }
+
+        private static void WriteQuestionsToPDFEachQuestionOnseperatePage(List<Question> questions, string questionsPdFFileName)
+        {
+            int counter = 1;
+            List<string> fileNames = new List<string>();
+            foreach (Question question in questions)
+            {
+                string pageFileName = string.Format("page{0}.pdf", counter);
+                string questionHtml = question.Write();
+                UtilPDF.WriteHtmlText2Pdf(questionHtml, pageFileName);
+                fileNames.Add(pageFileName);
+                counter++;
+            }
+            UtilPDF.MergePdf(fileNames, questionsPdFFileName);
+        }
+
+      
 
 
         private static void MakeFrontCoverImageSourcePage(string fileName)
