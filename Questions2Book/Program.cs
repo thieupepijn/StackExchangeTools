@@ -73,6 +73,7 @@ namespace Questions2Book
             string newLine = "<BR>";
             UtilPDF.WriteHtmlText2Pdf(newLine, backCover1FileName);
             UtilPDF.WriteHtmlText2Pdf(newLine, backCover2FileName);
+            UtilPDF.WriteHtmlText2Pdf(newLine, backCover2FileName);
         }
 
 

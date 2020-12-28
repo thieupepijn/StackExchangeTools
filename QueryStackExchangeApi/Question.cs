@@ -117,6 +117,11 @@ namespace QueryStackExchangeApi
             StringBuilder builder = new StringBuilder();
             builder.Append("<H1>References</H1>");
             builder.AppendLine("<BR>");
+            //TODO MATTHIEU THIS SHOULD BE DONE IN ANOTHER PLACE
+
+            builder.AppendLine("All questions and answers released under the Creative Commons Attribution-ShareAlike 4.0 International license.");
+            builder.AppendLine("<BR>");
+
             foreach (Question question in questions)
             {
                 builder.AppendLine(question.WriteReference());

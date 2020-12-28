@@ -13,6 +13,8 @@ namespace QueryStackExchangeApi
         public string QuestionId { get; private set; }
         public string Body { get; private set; }
         public int Score { get; private set; }
+        public bool IsAccepted { get; private set; }
+
 
         public Answer(JToken jtoken)
         {
@@ -20,6 +22,7 @@ namespace QueryStackExchangeApi
             QuestionId = jtoken["question_id"].Value<string>();
             Body = jtoken["body"].Value<string>();
             Score = jtoken["score"].Value<int>();
+            IsAccepted = jtoken["is_accepted"].Value<bool>();
         }
 
        
@@ -72,7 +75,8 @@ namespace QueryStackExchangeApi
         
         public static void RemoveBadAnswers(List<Answer> answers, int minimalScore = 1)
         {
-            answers.RemoveAll(a => a.Score < minimalScore);
+            //if it is an accepted answer by the OP than it ia also a good answer
+            answers.RemoveAll(a => a.Score < minimalScore && !a.IsAccepted);
         }
         
 
