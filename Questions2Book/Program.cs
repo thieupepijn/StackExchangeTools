@@ -23,6 +23,10 @@ namespace Questions2Book
             List<Question> questions = Question.GetQuestions(answers, siteName);
 
             List<TableOfContentsItem> tableOfContentsList = MakeQuestionPages(questions, 1, questionsFileName);
+            //add reference to table of contents
+            int numberOfQuestionPages = UtilPDF.GetNumberOfPages(questionsFileName);
+            tableOfContentsList.Add(new TableOfContentsItem("References", numberOfQuestionPages + 1));
+
             MakeTableOfContentsPages(tableOfContentsList, tableOfContentsFileName);
 
             string HtmlReferences = Question.References2String(questions);
