@@ -62,7 +62,6 @@ namespace QueryStackExchangeApi
             File.WriteAllText(fileInfo.FullName, Body);
         }
 
-
         public static string GetAnswersUrl(string userid, string siteApiName)
         {
 

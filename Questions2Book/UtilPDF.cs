@@ -29,6 +29,14 @@ namespace Questions2Book
         }
 
         
+        public static int GetNumberOfPages(string pdfFileName)
+        {
+            PdfDocument pdfDocument = new PdfDocument(new PdfReader(pdfFileName));
+            Document document = new Document(pdfDocument);
+            int numberOfPages = pdfDocument.GetNumberOfPages();
+            document.Close();
+            return numberOfPages;
+        }
 
         public static void NumberPdfDocument(string inFileName, string outFileName, bool includeCovers)
         {

@@ -52,19 +52,20 @@ namespace Questions2Book
 
       
 
-        private static void MakeQuestionPages(List<Question> questions, string questionsPdFFileName)
+        private static List<TableOfContentsItem> MakeQuestionPages(List<Question> questions, string questionsPdFFileName)
         {
-            int counter = 1;
+            List<TableOfContentsItem> tableOfContents = new List<TableOfContentsItem>();
             List<string> fileNames = new List<string>();
             foreach (Question question in questions)
             {
-                string pageFileName = string.Format("page{0}.pdf", counter);
+                string questionFileName = string.Format("question{0}.pdf", question.QuestionId);
                 string questionHtml = question.Write();
-                UtilPDF.WriteHtmlText2Pdf(questionHtml, pageFileName);
-                fileNames.Add(pageFileName);
-                counter++;
+                UtilPDF.WriteHtmlText2Pdf(questionHtml, questionFileName);
+                fileNames.Add(questionFileName);
+               // tableOfContents.Add(new TableOfContentsItem(question.Title, ))
             }
             UtilPDF.MergePdf(fileNames, questionsPdFFileName);
+            return tableOfContents;
         }
 
         private static void MakeColofonSourcePage(string fileName)
@@ -83,7 +84,6 @@ namespace Questions2Book
         {
             string HtmlQuestions = Question.Question2String(questions);
             UtilPDF.WriteHtmlText2Pdf(HtmlQuestions, questionsPdFFileName);
-
         }
 
 
