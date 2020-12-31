@@ -38,7 +38,7 @@ namespace Questions2Book
             return numberOfPages;
         }
 
-        public static void NumberPdfDocument(string inFileName, string outFileName, bool includeCovers)
+        public static void NumberPdfDocument(string inFileName, string outFileName, int startPage)
         {
             PdfDocument pdfDocument = new PdfDocument(new PdfReader(inFileName), new PdfWriter(outFileName));
             Document document = new Document(pdfDocument);
@@ -46,24 +46,14 @@ namespace Questions2Book
             int numberOfPages = pdfDocument.GetNumberOfPages();
             int pagewidth = Convert.ToInt16(pdfDocument.GetPage(numberOfPages).GetPageSize().GetWidth());
 
-            if (includeCovers)
+            int counter = 1;
+            for (int i = startPage; i <= numberOfPages; i++)
             {
-                for (int i = 1; i <= numberOfPages; i++)
-                {
-                    document.ShowTextAligned(new Paragraph(i.ToString()),
-                              pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                }
+                document.ShowTextAligned(new Paragraph(counter.ToString()),
+                          pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                counter++;
             }
-            else
-            {
-                int counter = 1;
-                for (int i = 3; i <= numberOfPages - 2; i++)
-                {
-                    document.ShowTextAligned(new Paragraph(counter.ToString()),
-                              pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                    counter++;
-                }
-            }
+
             document.Close();
         }
 

@@ -22,7 +22,7 @@ namespace Questions2Book
             Answer.RemoveBadAnswers(answers);
             List<Question> questions = Question.GetQuestions(answers, siteName);
 
-            List<TableOfContentsItem> tableOfContentsList = MakeQuestionPages(questions, 2, questionsFileName);
+            List<TableOfContentsItem> tableOfContentsList = MakeQuestionPages(questions, 1, questionsFileName);
             MakeTableOfContentsPages(tableOfContentsList, tableOfContentsFileName);
 
             string HtmlReferences = Question.References2String(questions);
@@ -38,7 +38,12 @@ namespace Questions2Book
          
 
             UtilPDF.MergePdf(sources, bookFileName);
-            UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, true);
+
+            int colofonPages = UtilPDF.GetNumberOfPages(colofonFileName);
+            int tableOfContentPages = UtilPDF.GetNumberOfPages(tableOfContentsFileName);
+            int numberPagesStart = colofonPages + tableOfContentPages + 1;
+
+            UtilPDF.NumberPdfDocument(bookFileName, bookFileNameNumbered, numberPagesStart);
         }
 
 
