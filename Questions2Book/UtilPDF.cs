@@ -50,7 +50,7 @@ namespace Questions2Book
             for (int i = startPage; i <= numberOfPages; i++)
             {
                 document.ShowTextAligned(new Paragraph(counter.ToString()),
-                          pagewidth / 2, 25, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                          pagewidth / 2, 35, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
                 counter++;
             }
 
